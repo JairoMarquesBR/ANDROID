@@ -1,0 +1,6 @@
+{
+  "name": "Cyberdeck Modular Dashboard",
+  "description": "A tactical industrial-style dashboard for managing, running, and configuring modular cyberdeck scripts, configurations, and Android intent triggers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,8 @@
+{
+  "appId": "com.cyberdeck.alpha",
+  "appName": "Deck Alpha",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}

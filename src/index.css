@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Frutiger Aero - Visual Identity & Styles */
+@layer utilities {
+  .aero-bg {
+    background: radial-gradient(circle at 20% 20%, #e0f2fe 0%, #bae6fd 30%, #c0fbe4 70%, #f0fdf4 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Glassmorphism Vista/Win7 style */
+  .glass-aero {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: 
+      0 10px 30px rgba(14, 116, 144, 0.08),
+      inset 0 1px 1px rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+  }
+
+  .glass-aero-dark {
+    background: rgba(15, 23, 42, 0.15);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+  }
+
+  /* Extreme high-gloss buttons with reflection */
+  .glossy-blue {
+    background: linear-gradient(180deg, #38bdf8 0%, #0ea5e9 45%, #0284c7 50%, #0369a1 100%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+      0 4px 12px rgba(2, 132, 199, 0.3),
+      inset 0 1.5px 0.5px rgba(255, 255, 255, 0.6);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  .glossy-blue:hover {
+    background: linear-gradient(180deg, #7dd3fc 0%, #38bdf8 45%, #0ea5e9 50%, #0284c7 100%);
+    box-shadow: 
+      0 6px 16px rgba(2, 132, 199, 0.45),
+      inset 0 1.5px 0.5px rgba(255, 255, 255, 0.8);
+  }
+
+  .glossy-green {
+    background: linear-gradient(180deg, #4ade80 0%, #22c55e 45%, #16a34a 50%, #15803d 100%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+      0 4px 12px rgba(22, 163, 74, 0.3),
+      inset 0 1.5px 0.5px rgba(255, 255, 255, 0.6);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  }
+  .glossy-green:hover {
+    background: linear-gradient(180deg, #86efac 0%, #4ade80 45%, #22c55e 50%, #16a34a 100%);
+    box-shadow: 
+      0 6px 16px rgba(22, 163, 74, 0.45),
+      inset 0 1.5px 0.5px rgba(255, 255, 255, 0.8);
+  }
+
+  .glossy-glass {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 45%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0.35) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 
+      0 4px 10px rgba(0, 0, 0, 0.04),
+      inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  }
+  .glossy-glass:hover {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.3) 45%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.5) 100%);
+    border-color: rgba(255, 255, 255, 0.9);
+  }
+
+  /* Shiny high gloss reflections */
+  .shine-overlay {
+    position: relative;
+  }
+  .shine-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 50%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.02) 100%);
+    pointer-events: none;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+  }
+
+  /* Aero glass scrollbars */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(56, 189, 248, 0.6) 0%, rgba(14, 165, 233, 0.6) 100%);
+    border: 2.5px solid rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(14, 165, 233, 0.8) 0%, rgba(3, 105, 161, 0.8) 100%);
+  }
+}
+
+/* Organic floaters & animations */
+@keyframes bubble-float {
+  0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.6; }
+  50% { transform: translateY(-40px) scale(1.1) rotate(180deg); opacity: 0.8; }
+  100% { transform: translateY(0) scale(1) rotate(360deg); opacity: 0.6; }
+}
+
+@keyframes bubble-wobble {
+  0%, 100% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; }
+  33% { border-radius: 70% 30% 52% 48% / 60% 40% 60% 40%; }
+  66% { border-radius: 50% 50% 30% 70% / 40% 60% 40% 60%; }
+}
+
+.animate-bubble-1 {
+  animation: bubble-float 15s infinite ease-in-out, bubble-wobble 8s infinite ease-in-out;
+}
+.animate-bubble-2 {
+  animation: bubble-float 22s infinite ease-in-out, bubble-wobble 10s infinite ease-in-out;
+  animation-delay: -3s;
+}
+.animate-bubble-3 {
+  animation: bubble-float 18s infinite ease-in-out, bubble-wobble 9s infinite ease-in-out;
+  animation-delay: -7s;
+}
+
+/* Signal / Pulse indicators in bright aqua/green */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 4px rgba(34, 197, 94, 0.4); }
+  50% { box-shadow: 0 0 12px rgba(34, 197, 94, 0.9); }
+}
+
+.aero-pulse-green {
+  animation: glow-pulse 2s infinite ease-in-out;
+}
