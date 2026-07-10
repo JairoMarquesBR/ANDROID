@@ -1,46 +1,68 @@
 =======================================================================
-          DECK-ALPHA - COMPILAÇÃO AUTOMÁTICA EM NUVEM COM GITHUB
+          DECK-ALPHA - GUIA COMPLETO DE COMPILAÇÃO DO APK NATIVO
 =======================================================================
 
-Parabéns pela excelente decisão de usar o GitHub! Com a nova estratégia de
-compilação em nuvem, você não precisa instalar o Android SDK, nem configurar
-variáveis de ambiente complexas e nem lutar contra o Gradle no seu computador.
+Temos duas estratégias excelentes para gerar o arquivo APK nativo do seu
+aplicativo Deck-Alpha. Escolha a que melhor se adapta ao seu cenário:
 
-O GitHub Actions fará todo o trabalho pesado em um servidor de alto
-desempenho e gerará o arquivo APK prontinho para você baixar diretamente.
+=======================================================================
+OPÇÃO A: COMPILAÇÃO LOCAL INTELIGENTE (NO SEU WINDOWS)
+=======================================================================
+Ideal se você quer compilar direto no seu computador pelo CMD, sem precisar 
+do pesado programa Android Studio! Nós criamos um script inteligente que:
+- Auto-detecta o seu Java JDK (17 ou superior) em pastas comuns.
+- Auto-detecta seu Android SDK e configura o "android/local.properties" sozinho!
+- Caso falte algo, ele te mostra um guia passo a passo em vermelho na tela.
 
------------------------------------------------------------------------
-COMO ATIVAR E USAR A COMPILAÇÃO NO GITHUB (PASSO A PASSO)
------------------------------------------------------------------------
+--- REQUISITOS NO SEU WINDOWS ---
+1. Node.js instalado (baixe em: https://nodejs.org/)
+2. Java JDK 17+ instalado (baixe em: https://adoptium.net/temurin/releases/?version=17)
+   * IMPORTANTE: No instalador do JDK (arquivo .msi), certifique-se de marcar 
+     a opção "Set JAVA_HOME" e "Add to PATH" para que o Windows o reconheça.
+3. Android SDK (Se você já instalou o Android Studio alguma vez, o SDK já está 
+   no seu computador! Caso contrário, instale o Android Studio e abra-o uma vez 
+   para que ele baixe as ferramentas do Android automaticamente).
 
-1. CRIE UM REPOSITÓRIO NO SEU GITHUB:
-   - Acesse https://github.com e crie um novo repositório (pode ser Público ou Privado).
+--- COMO EXECUTAR ---
+1. Extraia o projeto ZIP baixado em uma pasta do seu computador.
+2. Dê dois cliques no arquivo: "compilar_apk.bat"
+3. O script fará tudo sozinho e gerará o arquivo "Deck_Alpha.apk" na pasta raiz!
 
-2. SUBA O CÓDIGO DO DECK-ALPHA PARA O SEU REPOSITÓRIO:
-   - Você pode exportar este projeto diretamente do Google AI Studio para o seu GitHub,
-     ou clonar a pasta baixada em ZIP e fazer o push para o seu repositório.
+=======================================================================
+OPÇÃO B: COMPILAÇÃO EM NUVEM (VIA GITHUB ACTIONS)
+=======================================================================
+Ideal se você não quer instalar nada de Android/Java no seu computador. 
+O servidor do GitHub faz todo o trabalho de compilação de graça para você!
 
-3. VEJA A MÁGICA ACONTECER (COMPILAÇÃO AUTOMÁTICA):
-   - Assim que o código for enviado para a branch 'main' ou 'master' do seu repositório,
-     o GitHub Actions detectará o arquivo de configuração criado em:
-     `.github/workflows/build-apk.yml`
-   - O GitHub iniciará automaticamente o processo de compilação em nuvem!
+--- POR QUE DEU ERRO DE BILLING/STARTUP NO SEU GITHUB? ---
+O GitHub Actions é 100% gratuito para repositórios públicos e oferece 2000 minutos 
+grátis por mês para repositórios privados. No entanto, o erro ocorre porque:
+1. Sua conta do GitHub pode estar com o limite grátis temporariamente travado.
+2. Como resolver isso gratuitamente no seu GitHub:
+   - Vá em "Settings" (Configurações da sua conta do GitHub, clicando na sua foto no canto superior direito).
+   - Vá na aba "Billing and plans" -> "Plans and usage".
+   - Certifique-se de que o limite de gastos ("Spending limit") está configurado 
+     como $0 (assim você nunca é cobrado) e que o fluxo do Actions está ativo.
+   - Às vezes, o GitHub exige que você confirme um cartão de crédito apenas para 
+     verificar a identidade da conta (para evitar abusos de robôs), mas NUNCA 
+     cobra nada se você usar repositórios públicos ou estiver dentro do limite grátis.
+   - Para resolver instantaneamente e sem burocracia, você pode simplesmente 
+     mudar a visibilidade do seu repositório para PÚBLICO (Public). Repositórios 
+     públicos têm compilação do GitHub Actions 100% gratuita e ILIMITADA!
 
-4. COMO DISPARAR MANUALMENTE (SE PREFERIR):
-   - No seu repositório do GitHub, vá na aba "Actions" (no menu superior).
-   - Clique em "Build Android APK" no menu à esquerda.
-   - Clique no botão cinza "Run workflow" e confirme.
+--- COMO USAR NO GITHUB ---
+1. Com o repositório criado (mude para Público para liberar o build na hora):
+2. Faça o envio (push) do código ou exporte do AI Studio para o seu repositório.
+3. Na página do seu repositório no site do GitHub, clique na aba "Actions".
+4. Selecione "Build Android APK" na barra lateral esquerda.
+5. Clique no botão "Run workflow" e aguarde a conclusão (cerca de 2 a 3 minutos).
+6. Quando o círculo verde com check (✓) aparecer, clique na execução do build.
+7. Role até o final da página e baixe o artefato compactado "Deck-Alpha-APK".
+8. Extraia o arquivo "app-debug.apk" de dentro dele.
 
-5. COMO BAIXAR SEU APK CONCLUÍDO:
-   - Na aba "Actions", clique sobre a execução do build que acabou de rodar (ficará com um símbolo de check verde '✓' ao terminar).
-   - Role a página até o final, na seção "Artifacts" (Artefatos).
-   - Você verá um arquivo chamado "Deck-Alpha-APK". Clique para baixá-lo!
-   - Ele virá compactado em ZIP. Basta extrair o arquivo "app-debug.apk" (ou Deck_Alpha.apk) de dentro dele.
-
------------------------------------------------------------------------
-COMO INSTALAR NO SEU CELULAR
------------------------------------------------------------------------
-
-1. Transfira o arquivo APK baixado para a memória do seu celular Android.
-2. Toque no arquivo para abri-lo e autorize a instalação de aplicativos de fontes desconhecidas se solicitado.
-3. Pronto! O aplicativo será instalado como um app 100% nativo com o ícone do Deck Alpha!
+=======================================================================
+COMO INSTALAR O APK NO SEU CELULAR
+=======================================================================
+1. Envie o arquivo APK gerado (seja pela Opção A ou B) para o seu celular Android.
+2. Toque no arquivo para abri-lo e autorize a instalação de fontes desconhecidas.
+3. Pronto! O painel Deck Alpha estará instalado nativamente, rápido e 100% funcional!

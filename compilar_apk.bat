@@ -34,14 +34,56 @@ echo.
 
 :: 2. Verificar Java JDK
 echo [2/5] Verificando instalacao do Java (JDK)...
-java -version >nul 2>&1
-if %errorlevel% neq 0 (
-    :: Tenta auto-detectar em pastas padroes comuns
+
+:: Se JAVA_HOME já estiver configurada e for válida, usar ela
+if defined JAVA_HOME (
+    if exist "%JAVA_HOME%\bin\java.exe" (
+        echo [INFO] Usando JAVA_HOME existente: %JAVA_HOME%
+        set "PATH=%JAVA_HOME%\bin;%PATH%"
+    )
+)
+
+:: Se não estiver definida ou for inválida, procurar nos locais padrões do Windows
+if not exist "%JAVA_HOME%\bin\java.exe" (
+    set "JAVA_HOME="
+    
+    :: Procurar em C:\Program Files\Java
     if exist "C:\Program Files\Java" (
         for /d %%i in ("C:\Program Files\Java\jdk-*") do (
             set "JAVA_HOME=%%i"
-            set "PATH=%%i\bin;%PATH%"
         )
+    )
+    
+    :: Procurar em C:\Program Files\Eclipse Adoptium
+    if not defined JAVA_HOME (
+        if exist "C:\Program Files\Eclipse Adoptium" (
+            for /d %%i in ("C:\Program Files\Eclipse Adoptium\jdk-*") do (
+                set "JAVA_HOME=%%i"
+            )
+        )
+    )
+    
+    :: Procurar em C:\Program Files\Zulu
+    if not defined JAVA_HOME (
+        if exist "C:\Program Files\Zulu" (
+            for /d %%i in ("C:\Program Files\Zulu\zulu-*") do (
+                set "JAVA_HOME=%%i"
+            )
+        )
+    )
+
+    :: Procurar em C:\Program Files\Microsoft
+    if not defined JAVA_HOME (
+        if exist "C:\Program Files\Microsoft" (
+            for /d %%i in ("C:\Program Files\Microsoft\jdk-*") do (
+                set "JAVA_HOME=%%i"
+            )
+        )
+    )
+
+    if defined JAVA_HOME (
+        echo [INFO] Java JDK localizado automaticamente em: !JAVA_HOME!
+        set "PATH=!JAVA_HOME!\bin;%PATH%"
     )
 )
 
@@ -49,18 +91,18 @@ java -version >nul 2>&1
 if %errorlevel% neq 0 (
     color 0c
     echo.
-    echo [ERRO] O Java (JDK 17+) nao foi encontrado!
-    echo O compilador Gradle necessita do Java para gerar o APK.
+    echo [ERRO] O Java (JDK 17 ou superior) nao foi encontrado!
+    echo O compilador Gradle necessita do Java JDK para gerar o APK.
     echo.
     echo Como resolver facilmente:
     echo 1. Baixe o OpenJDK 17 (gratuito) em: https://adoptium.net/temurin/releases/?version=17
-    echo 2. Instale e certifique-se de marcar a opcao "Set JAVA_HOME" na instalacao.
+    echo 2. Instale e certifique-se de MARCAR a opcao "Set JAVA_HOME" e "Add to PATH" durante a instalacao.
     echo 3. Reinicie o CMD e rode este arquivo de novo.
     echo.
     pause
     exit /b
 )
-echo [OK] Java detectado!
+echo [OK] Java detectado: !JAVA_HOME!
 echo.
 
 :: 2.5. Verificar e Auto-Configurar Android SDK
@@ -177,8 +219,34 @@ call gradlew.bat assembleDebug
 if %errorlevel% neq 0 (
     color 0c
     echo.
-    echo [ERRO] Falha ao compilar o APK nativo via Gradle.
-    echo DICA: Verifique se sua variavel JAVA_HOME aponta para um JDK 17 ou superior.
+    echo =======================================================================
+    echo    [ERRO CRITICO] O MOTOR GRADLE FALHOU NA COMPILACAO DO APK!
+    echo =======================================================================
+    echo.
+    echo Nao se preocupe, isso e muito comum quando configuramos o ambiente pela primeira vez.
+    echo Siga os diagnosticos abaixo para identificar e resolver o problema:
+    echo.
+    echo DIAGNOSTICOS E SOLUCOES POSSIVEIS:
+    echo.
+    echo 1. VERSAO DO JAVA INCOMPATIVEL:
+    echo    - O compilador do Android requer especificamente o Java JDK 17 ou superior.
+    echo    - O Java atual configurado para este script e: "!JAVA_HOME!"
+    echo    - Se for um JDK antigo (como JDK 8 ou 11), a compilacao falhara.
+    echo    - Baixe e instale o JDK 17 em: https://adoptium.net/temurin/releases/?version=17
+    echo.
+    echo 2. ACEITAR AS LICENCAS DO ANDROID SDK (MUITO COMUM):
+    echo    - Se voce instalou o SDK do Android recentemente, voce precisa aceitar os termos de licenca do Google.
+    echo    - Como fazer: Abra um CMD comum e rode o comando abaixo:
+    echo      "%%LOCALAPPDATA%%\Android\Sdk\cmdline-tools\latest\bin\sdkmanager.bat" --licenses
+    echo    - Pressione a tecla 'y' para todas as perguntas para aceitar as licencas.
+    echo.
+    echo 3. FALTA DE COMPONENTES DO SDK:
+    echo    - O compilador requer a plataforma de build do "Android 14 (API 34)".
+    echo    - Se voce usa o Android Studio: Abra o Android Studio, va em Settings -^> Languages ^& Frameworks -^> Android SDK e certifique-se de instalar a plataforma do Android 14.0 (UpsideDownCake, API 34).
+    echo.
+    echo 4. FALTA DE INTERNET NA PRIMEIRA EXECUCAO:
+    echo    - Na primeirissima vez que roda, o Gradle precisa baixar o motor de compilacao. Garanta que o seu computador esta conectado a internet e que nenhum antivirus ou firewall esta blocoando a conexao.
+    echo =======================================================================
     cd ..
     pause
     exit /b
