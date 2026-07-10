@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 title COMPILADOR DECK-ALPHA APK (SEM ANDROID STUDIO)
 color 0b
 echo =======================================================================
@@ -60,6 +61,76 @@ if %errorlevel% neq 0 (
     exit /b
 )
 echo [OK] Java detectado!
+echo.
+
+:: 2.5. Verificar e Auto-Configurar Android SDK
+echo [2.5/5] Verificando instalacao do Android SDK...
+set "SDK_FOUND="
+
+:: 1. Verificar se ANDROID_HOME já existe e é válido
+if defined ANDROID_HOME (
+    if exist "%ANDROID_HOME%" (
+        set "SDK_FOUND=%ANDROID_HOME%"
+    )
+)
+
+:: 2. Verificar se ANDROID_SDK_ROOT já existe e é válido
+if not defined SDK_FOUND (
+    if defined ANDROID_SDK_ROOT (
+        if exist "%ANDROID_SDK_ROOT%" (
+            set "SDK_FOUND=%ANDROID_SDK_ROOT%"
+        )
+    )
+)
+
+:: 3. Se não encontrou, verificar caminho padrão do Android Studio no Windows AppData
+if not defined SDK_FOUND (
+    if exist "%LOCALAPPDATA%\Android\Sdk" (
+        set "SDK_FOUND=%LOCALAPPDATA%\Android\Sdk"
+        echo [INFO] Android SDK encontrado automaticamente em AppData local.
+    )
+)
+
+:: 4. Verificar outros caminhos comuns
+if not defined SDK_FOUND (
+    if exist "C:\Android\sdk" (
+        set "SDK_FOUND=C:\Android\sdk"
+        echo [INFO] Android SDK encontrado automaticamente em C:\Android\sdk.
+    )
+)
+
+:: 5. Se encontramos o SDK, vamos criar/atualizar o local.properties automaticamente!
+if defined SDK_FOUND (
+    echo [OK] Android SDK localizado em: !SDK_FOUND!
+    echo Configurando arquivo android/local.properties automaticamente para evitar erros...
+    
+    :: Garantir que o diretório android existe
+    if not exist "android" mkdir android
+    
+    :: No Windows, o local.properties exige barras invertidas duplas ou barras normais. Vamos converter as barras invertidas para barras normais (funciona perfeitamente no Gradle).
+    set "CLEAN_SDK=!SDK_FOUND:\=/!"
+    
+    :: Escrever no arquivo local.properties
+    echo # Criado automaticamente pelo compilador Deck-Alpha > android\local.properties
+    echo sdk.dir=!CLEAN_SDK! > android\local.properties
+    echo [OK] Arquivo android/local.properties configurado com sucesso!
+) else (
+    color 0e
+    echo.
+    echo [ATENCAO] O Android SDK nao foi encontrado nas pastas padroes!
+    echo Para compilar o APK, voce precisa ter o Android SDK instalado no Windows.
+    echo.
+    echo Como resolver:
+    echo 1. Se voce ja tem o Android Studio instalado, abra-o uma vez para que ele baixe o SDK na pasta padrao.
+    echo 2. Se o seu SDK esta em outra pasta, crie uma variavel de ambiente chamada ANDROID_HOME apontando para ela.
+    echo 3. Voce pode criar manualmente o arquivo "android\local.properties" e escrever: sdk.dir=C:/Caminho/Para/Seu/SDK
+    echo.
+    echo Deseja tentar rodar o compilador mesmo assim? [S/N]
+    set /p "ans=Escolha: "
+    if /i "%ans%" neq "S" (
+        exit /b
+    )
+)
 echo.
 
 :: 3. Instalar dependencias e buildar Web Assets

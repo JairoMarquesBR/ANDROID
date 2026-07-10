@@ -1,0 +1,46 @@
+=======================================================================
+          DECK-ALPHA - COMPILAÇÃO AUTOMÁTICA EM NUVEM COM GITHUB
+=======================================================================
+
+Parabéns pela excelente decisão de usar o GitHub! Com a nova estratégia de
+compilação em nuvem, você não precisa instalar o Android SDK, nem configurar
+variáveis de ambiente complexas e nem lutar contra o Gradle no seu computador.
+
+O GitHub Actions fará todo o trabalho pesado em um servidor de alto
+desempenho e gerará o arquivo APK prontinho para você baixar diretamente.
+
+-----------------------------------------------------------------------
+COMO ATIVAR E USAR A COMPILAÇÃO NO GITHUB (PASSO A PASSO)
+-----------------------------------------------------------------------
+
+1. CRIE UM REPOSITÓRIO NO SEU GITHUB:
+   - Acesse https://github.com e crie um novo repositório (pode ser Público ou Privado).
+
+2. SUBA O CÓDIGO DO DECK-ALPHA PARA O SEU REPOSITÓRIO:
+   - Você pode exportar este projeto diretamente do Google AI Studio para o seu GitHub,
+     ou clonar a pasta baixada em ZIP e fazer o push para o seu repositório.
+
+3. VEJA A MÁGICA ACONTECER (COMPILAÇÃO AUTOMÁTICA):
+   - Assim que o código for enviado para a branch 'main' ou 'master' do seu repositório,
+     o GitHub Actions detectará o arquivo de configuração criado em:
+     `.github/workflows/build-apk.yml`
+   - O GitHub iniciará automaticamente o processo de compilação em nuvem!
+
+4. COMO DISPARAR MANUALMENTE (SE PREFERIR):
+   - No seu repositório do GitHub, vá na aba "Actions" (no menu superior).
+   - Clique em "Build Android APK" no menu à esquerda.
+   - Clique no botão cinza "Run workflow" e confirme.
+
+5. COMO BAIXAR SEU APK CONCLUÍDO:
+   - Na aba "Actions", clique sobre a execução do build que acabou de rodar (ficará com um símbolo de check verde '✓' ao terminar).
+   - Role a página até o final, na seção "Artifacts" (Artefatos).
+   - Você verá um arquivo chamado "Deck-Alpha-APK". Clique para baixá-lo!
+   - Ele virá compactado em ZIP. Basta extrair o arquivo "app-debug.apk" (ou Deck_Alpha.apk) de dentro dele.
+
+-----------------------------------------------------------------------
+COMO INSTALAR NO SEU CELULAR
+-----------------------------------------------------------------------
+
+1. Transfira o arquivo APK baixado para a memória do seu celular Android.
+2. Toque no arquivo para abri-lo e autorize a instalação de aplicativos de fontes desconhecidas se solicitado.
+3. Pronto! O aplicativo será instalado como um app 100% nativo com o ícone do Deck Alpha!
